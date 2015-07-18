@@ -1,6 +1,7 @@
 mod sat;
 
-use sat::{ClausePart, Clause, SAT};
+use sat::{SAT};
+use sat::clause::*;
 
 pub fn main() {
 	let mut sat = SAT::new();
@@ -8,7 +9,7 @@ pub fn main() {
 	let v1 = sat.variable("v1");
 	let v2 = sat.variable("v2");
 
-	let clause = (ClausePart::new(v1, false), ClausePart::new(v2, false), ClausePart::new(v2, false));
+	let clause = (basic(v1), basic(v2), with_negate(v2, true));
 
 	sat.add_clause(clause);
 

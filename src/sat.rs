@@ -1,17 +1,29 @@
 use std::vec::Vec;
 
-pub struct ClausePart {
-	variable: usize,
-	negate: bool
-}
-
-impl ClausePart {
-	pub fn new(var: usize, negate: bool) -> ClausePart {
-		ClausePart{variable: var, negate: negate}
+pub mod clause {
+	pub struct ClausePart {
+		pub variable: usize,
+		pub negate: bool
 	}
+
+	impl ClausePart {
+		pub fn new(var: usize, negate: bool) -> ClausePart {
+			ClausePart{variable: var, negate: negate}
+		}
+	}
+
+	pub fn basic(uid: usize) -> ClausePart {
+		ClausePart::new(uid, false)
+	}
+
+	pub fn with_negate(uid: usize, negate: bool) -> ClausePart {
+		ClausePart::new(uid, negate)
+	}
+
+	pub type Clause = (ClausePart, ClausePart, ClausePart);
 }
 
-pub type Clause = (ClausePart, ClausePart, ClausePart);
+use sat::clause::*;
 
 pub struct SAT {
 	pub variables: Vec<String>,
