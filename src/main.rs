@@ -1,6 +1,6 @@
 mod sat;
 
-use sat::{SAT};
+use sat::SAT;
 use sat::clause::*;
 
 pub fn main() {
