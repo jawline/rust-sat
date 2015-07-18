@@ -1,0 +1,4 @@
+[root]
+name = "rust-sat"
+version = "0.0.1"
+

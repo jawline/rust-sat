@@ -1,0 +1,5 @@
+[package]
+
+name = "rust-sat"
+version = "0.0.1"
+authors = [ "Blake Loring <blake_l@parsed.uk>" ]
