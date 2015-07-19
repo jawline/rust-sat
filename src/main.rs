@@ -1,7 +1,7 @@
 mod sat;
 
 use sat::SAT;
-use sat::clause::*;
+use sat::clause;
 
 pub fn main() {
 	let mut sat = SAT::new();
@@ -9,9 +9,16 @@ pub fn main() {
 	let v1 = sat.variable("v1");
 	let v2 = sat.variable("v2");
 
-	let clause = (basic(v1), basic(v2), with_negate(v2, true));
+	let clause = (clause::positive(v1), clause::positive(v2), clause::positive(v1));
+	let clause2 = (clause::negative(v1), clause::negative(v2), clause::negative(v2));
 
 	sat.add_clause(clause);
+	sat.add_clause(clause2);
 
-	println!("Satisfiable: {}", sat.is_sat());
+	let (can_sat, cur_sat) = sat.attempt();
+
+	println!("Satisfiable: {}", can_sat);
+	if can_sat {
+		sat.print_mapping(cur_sat);
+	}
 }

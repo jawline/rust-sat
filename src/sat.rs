@@ -12,12 +12,12 @@ pub mod clause {
 		}
 	}
 
-	pub fn basic(uid: usize) -> ClausePart {
+	pub fn positive(uid: usize) -> ClausePart {
 		ClausePart::new(uid, false)
 	}
 
-	pub fn with_negate(uid: usize, negate: bool) -> ClausePart {
-		ClausePart::new(uid, negate)
+	pub fn negative(uid: usize) -> ClausePart {
+		ClausePart::new(uid, true)
 	}
 
 	pub type Clause = (ClausePart, ClausePart, ClausePart);
@@ -53,7 +53,7 @@ impl SAT {
 
 	fn check_sat(&self, cur_sat: &Vec<bool>) -> bool {
 		for clause in &self.clauses {
-			if !(SAT::check_part(&clause.0, cur_sat) && SAT::check_part(&clause.1, cur_sat) && SAT::check_part(&clause.2, cur_sat)) {
+			if !(SAT::check_part(&clause.0, cur_sat) || SAT::check_part(&clause.1, cur_sat) || SAT::check_part(&clause.2, cur_sat)) {
 				return false;
 			}
 		}
@@ -75,13 +75,21 @@ impl SAT {
 		}
 	}
 
-	pub fn is_sat(&self) -> bool {
+	pub fn attempt(&self) -> (bool, Vec<bool>) {
 		let mut cur_sat = Vec::new();
 
 		for _ in 0..self.variables.len() {
 			cur_sat.push(false);
 		}
 
-		self.sat_next(0, &mut cur_sat)
+		let can_sat = self.sat_next(0, &mut cur_sat);
+
+		(can_sat, cur_sat)
+	}
+
+	pub fn print_mapping(&self, cur_sat: Vec<bool>) {
+		for i in 0..cur_sat.len() {
+			println!("{}: {}", self.variables[i], cur_sat[i]);
+		}
 	}
 }
