@@ -59,19 +59,22 @@ impl SAT {
 		}
 		true
 	}
-
-	fn sat_next(&self, i: usize, cur_sat: &mut Vec<bool>) -> bool {
-		
-		if i == self.variables.len() {
-			return self.check_sat(cur_sat);
-		}
-
+	
+	fn split(&self, i: usize, cur_sat: &mut Vec<bool>) -> bool {
 		cur_sat[i] = false;
 		if self.sat_next(i+1, cur_sat) {
-			true
-		} else {
-			cur_sat[i] = true;
-			self.sat_next(i+1, cur_sat)
+			return true;
+		}
+		cur_sat[i] = true;
+		self.sat_next(i+1, cur_sat)
+	}
+
+	fn sat_next(&self, i: usize, cur_sat: &mut Vec<bool>) -> bool {
+		match self.variables.len() {
+			i => self.check_sat(cur_sat),
+			_ => {
+				self.split(i, cur_sat)
+			}
 		}
 	}
 
