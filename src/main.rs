@@ -6,8 +6,7 @@ use sat::clause;
 pub fn main() {
 	let mut sat = SAT::new();
 
-	let v1 = sat.variable("v1");
-	let v2 = sat.variable("v2");
+	let (v1, v2) = (sat.variable("v1"), sat.variable("v2"));
 
 	let clause = (clause::positive(v1), clause::positive(v2), clause::positive(v1));
 	let clause2 = (clause::negative(v1), clause::negative(v2), clause::negative(v2));
