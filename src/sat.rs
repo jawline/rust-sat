@@ -43,6 +43,12 @@ impl SAT {
 	pub fn add_clause(&mut self, clause: Clause) {
 		self.clauses.push(clause);
 	}
+	
+	pub fn add_clauses(&mut self, clauses: Vec<Clause>) {
+		for item in clauses.drain() {
+			self.clauses.push(item);
+		}
+	}
 
 	fn check_part(part: &ClausePart, cur_sat: &Vec<bool>) -> bool {
 		match part.negate {
