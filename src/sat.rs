@@ -89,9 +89,7 @@ impl SAT {
 			cur_sat.push(false);
 		}
 
-		let can_sat = self.sat_next(0, &mut cur_sat);
-
-		(can_sat, cur_sat)
+		(self.sat_next(0, &mut cur_sat), cur_sat)
 	}
 
 	pub fn print_mapping(&self, cur_sat: Vec<bool>) {
