@@ -78,9 +78,7 @@ impl SAT {
 	fn sat_next(&self, i: usize, cur_sat: &mut Vec<bool>) -> bool {
 		match self.variables.len() {
 			i => self.check_sat(cur_sat),
-			_ => {
-				self.split(i, cur_sat)
-			}
+			_ => self.split(i, cur_sat)
 		}
 	}
 
